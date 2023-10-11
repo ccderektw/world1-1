@@ -1,0 +1,18 @@
+<html>
+    <script>
+        window.onload = function(){
+            var i = 0;
+            //fetch("http://")
+            var image = document.getElementById("img");
+            image.src = 'img/' + i + '.png';
+            function updateImage(){
+                i = (i+1)%2;
+                image.src = 'img/' + i + '.png';
+            }
+            setInterval(updateImage, 1000);
+        }
+    </script>
+    <body>
+        <img id="img"/>
+    </body>
+</html>
