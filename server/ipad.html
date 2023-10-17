@@ -2,14 +2,40 @@
     <script>
         window.onload = function(){
             var i = 0;
-            //fetch("http://")
             var image = document.getElementById("img");
             image.src = 'img/' + i + '.png';
             function updateImage(){
                 i = (i+1)%2;
                 image.src = 'img/' + i + '.png';
             }
-            setInterval(updateImage, 1000);
+            function fetchData(){
+                return fetch("http://127.0.0.1:5000/get_data_ipad?id=2", {mode: "no-cors"})
+                    .then(function(response){
+                        return response.json();
+                    })
+                    .then(function(data){
+                        console.log(data);
+                    });
+            }
+
+            function postData(url, data) {
+                // Default options are marked with *
+                return fetch(url, {
+                    body: JSON.stringify(data), // must match 'Content-Type' header
+                    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: "same-origin", // include, same-origin, *omit
+                    headers: {
+                    "user-agent": "Mozilla/4.0 MDN Example",
+                    "content-type": "application/json",
+                    },
+                    method: "POST", // *GET, POST, PUT, DELETE, etc.
+                    mode: "cors", // no-cors, cors, *same-origin
+                    redirect: "follow", // manual, *follow, error
+                    referrer: "no-referrer", // *client, no-referrer
+                }).then((response) => response.json());
+            }
+            //setInterval(updateImage, 1000);
+            setInterval(fetchData, 1000);
         }
     </script>
     <body>

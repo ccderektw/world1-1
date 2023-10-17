@@ -33,7 +33,7 @@ def get_data_lamp():
         data = conn.execute(cmd).fetchone()
         target_sensor += data['status']
     conn.close()
-    return str(data['status'])
+    return str(target_sensor)
 
 # in: ipad -> db
 # out: ipad status (0,1,2,3)
@@ -48,7 +48,7 @@ def get_data_ipad():
         data = conn.execute(cmd).fetchone()
         target_sensor += data['status']
     conn.close()
-    return str(data['status'])
+    return str(target_sensor)
 
 # in: ipad -> db
 # out: 
