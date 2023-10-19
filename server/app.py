@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, request, g 
+from flask import Flask, request, g, render_template, send_file
 
 total_sensor = 30
 app = Flask(__name__)
@@ -36,21 +36,6 @@ def get_data_lamp():
     return str(target_sensor)
 
 # in: ipad -> db
-# out: ipad status (0,1,2,3)
-@app.route("/get_data_ipad", methods = ['GET'])
-def get_data_ipad():
-    conn = db_connect()
-    target_lamp = request.values.get('id')
-    target_sensor = 0
-    for i in range(3):
-        cmd = 'select * from sensor where id=' + str(int(target_lamp)*3+i)
-        # print(cmd)
-        data = conn.execute(cmd).fetchone()
-        target_sensor += data['status']
-    conn.close()
-    return str(target_sensor)
-
-# in: ipad -> db
 # out: 
 @app.route("/get_data_all", methods = ['GET'])
 def get_data_all():
@@ -59,6 +44,25 @@ def get_data_all():
     data = conn.execute(cmd).fetchall()
     conn.close()
     return str(data['status'])
+
+@app.route("/ipad/<ipad_id>", methods = ['GET'])
+def ipad(ipad_id):
+    return render_template("/ipad.html", ipad_id=ipad_id)
+
+@app.route("/img_status", methods = ['GET'])
+def img_status():
+    target_id = int(request.values.get('id'))
+    target_status = -1
+    conn = db_connect()
+    cmd = 'select * from sensor where id=' + str(target_id)
+    target_status = conn.execute(cmd).fetchone()['status']
+    conn.close()
+    return str(target_status)
+
+@app.route("/img", methods = ['GET'])
+def img():
+    target_id = int(request.values.get('id'))
+    return send_file("img/" + str(target_id) + ".png")
 
 # for debug only
 @app.route("/")

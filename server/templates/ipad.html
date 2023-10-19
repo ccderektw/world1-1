@@ -1,0 +1,24 @@
+<html>
+    <script>
+        window.onload = function(){
+            var image = document.getElementById("img");
+            var ipad_id = '{{ipad_id}}';
+            console.log(ipad_id);
+            function updateImage(){
+                var status = "";
+                fetch('/img_status?id=' + ipad_id)
+                .then(function(res){
+                    return res.text();
+                }).then(function(status){
+                    image.src = '/img?id=' + status;
+                });
+            }
+            updateImage();
+            setInterval(updateImage, 1000);
+
+        }
+    </script>
+    <body>
+        <img id="img"/>
+    </body>
+</html>
