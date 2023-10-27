@@ -41,8 +41,8 @@ while(1):
             print(str(lamp_list[i].id) + "status change to: " + str(lamp_list[i].onoff))
             if(lamp_list[i].onoff > 0):
                 print("turn on..")
-                GPIO.output(lamp_list[i].pin, GPIO.HIGH)
+                GPIO.output(lamp_list[i].pin, GPIO.LOW)
             else:
                 print("turn off..")
-                GPIO.output(lamp_list[i].pin, GPIO.LOW)
+                GPIO.output(lamp_list[i].pin, GPIO.HIGH)
     time.sleep(0.5)
